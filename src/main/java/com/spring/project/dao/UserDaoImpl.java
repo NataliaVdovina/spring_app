@@ -1,0 +1,24 @@
+package com.spring.project.dao;
+
+import com.spring.project.model.User;
+import com.spring.project.service.user.UserDao;
+import org.springframework.stereotype.Repository;
+
+import javax.annotation.PostConstruct;
+import java.util.HashSet;
+import java.util.Set;
+
+@Repository
+public class UserDaoImpl implements UserDao {
+    private Set<User> users = new HashSet<>();
+
+    @PostConstruct
+    public void init(){
+        User user1 = new User(1L, "testEmail1", "testPassword1", "testFirstName1",
+                "testLastName1");
+        User user2 = new User(2L, "testEmail2", "testPassword2", "testFirstName2",
+                "testLastName2");
+        users.add(user1);
+        users.add(user2);
+    }
+}
