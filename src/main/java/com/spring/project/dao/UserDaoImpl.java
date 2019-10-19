@@ -21,4 +21,14 @@ public class UserDaoImpl implements UserDao {
         users.add(user1);
         users.add(user2);
     }
+
+    @Override
+    public boolean isExist(User user) {
+        return users.contains(user);
+        }
+
+    @Override
+    public void add(User user) {
+        users.add(user);
+    }
 }
