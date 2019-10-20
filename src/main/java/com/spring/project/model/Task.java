@@ -11,23 +11,21 @@ import java.util.Objects;
 @AllArgsConstructor
 public class Task {
     private Long taskId;
-    private User user;
+    private Long userId;
     private String taskName;
-    private String status;
+    private TaskStatus taskStatus;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return Objects.equals(taskId, task.taskId) &&
-                Objects.equals(user, task.user) &&
-                Objects.equals(taskName, task.taskName) &&
-                Objects.equals(status, task.status);
+        return Objects.equals(userId, task.userId) &&
+                Objects.equals(taskName, task.taskName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(taskId, user, taskName, status);
+        return Objects.hash(userId, taskName);
     }
 }

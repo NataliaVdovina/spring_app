@@ -6,6 +6,6 @@ import java.util.Optional;
 
 public interface UserDao {
     boolean isExist(User user);
-    void add(User user);
+    void createUser(User user);
     Optional<Long> findUserIdByEmailAndPassword(String email, String password);
 }

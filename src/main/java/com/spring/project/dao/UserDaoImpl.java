@@ -5,9 +5,7 @@ import com.spring.project.service.user.UserDao;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -29,7 +27,11 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void add(User user) {
+    public void createUser(User user) {
+        Optional<Long> maxUserId = users.stream()
+                .map(User::getUserId)
+                .max(Collections.reverseOrder());
+        user.setUserId(maxUserId.orElse(0L) + 1);
         users.add(user);
     }
 

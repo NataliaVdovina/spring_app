@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService {
         if (userDao.isExist(user)) {
             return false;
         } else {
-            userDao.add(user);
+            userDao.createUser(user);
             return true;
         }
     }
