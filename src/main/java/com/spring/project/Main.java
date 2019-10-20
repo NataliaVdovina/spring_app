@@ -17,6 +17,7 @@ public class Main {
 
         User user = new User(null, "testEmail1", "testPassword1", "testFirstName1",
                 "testLastName1");
-        userController.signUp(user);
+        assert !userController.signUp(user);
+        assert userController.signIn(user);
     }
 }

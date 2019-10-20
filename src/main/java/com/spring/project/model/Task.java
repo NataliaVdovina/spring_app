@@ -1,51 +1,19 @@
 package com.spring.project.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Objects;
 
+@Getter
+@Setter
+@AllArgsConstructor
 public class Task {
     private Long taskId;
     private User user;
     private String taskName;
     private String status;
-
-    public Task(Long taskId, User user, String taskName, String status) {
-        this.taskId = taskId;
-        this.user = user;
-        this.taskName = taskName;
-        this.status = status;
-    }
-
-    public Long getTask_id() {
-        return taskId;
-    }
-
-    public void setTask_id(Long taskId) {
-        this.taskId = taskId;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getTaskName() {
-        return taskName;
-    }
-
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 
     @Override
     public boolean equals(Object o) {

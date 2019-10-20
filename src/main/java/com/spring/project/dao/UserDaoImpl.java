@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Repository
@@ -13,7 +14,7 @@ public class UserDaoImpl implements UserDao {
     private Set<User> users = new HashSet<>();
 
     @PostConstruct
-    public void init(){
+    public void init() {
         User user1 = new User(1L, "testEmail1", "testPassword1", "testFirstName1",
                 "testLastName1");
         User user2 = new User(2L, "testEmail2", "testPassword2", "testFirstName2",
@@ -25,10 +26,18 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean isExist(User user) {
         return users.contains(user);
-        }
+    }
 
     @Override
     public void add(User user) {
         users.add(user);
+    }
+
+    @Override
+    public Optional<Long> findUserIdByEmailAndPassword(String email, String password) {
+        return users.stream()
+                .filter(user -> user.getEmail().equals(email) && user.getPassword().equals(password))
+                .map(User::getUserId)
+                .findAny();
     }
 }
