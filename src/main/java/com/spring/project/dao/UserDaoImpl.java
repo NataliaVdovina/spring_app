@@ -1,6 +1,6 @@
 package com.spring.project.dao;
 
-import com.spring.project.model.User;
+import com.spring.project.model.user.User;
 import com.spring.project.service.user.UserDao;
 import org.springframework.stereotype.Repository;
 
@@ -41,5 +41,12 @@ public class UserDaoImpl implements UserDao {
                 .filter(user -> user.getEmail().equals(email) && user.getPassword().equals(password))
                 .map(User::getUserId)
                 .findAny();
+    }
+
+    @Override
+    public void setSubscriptionByUserId(Long userId, String subscription) {
+        users.stream()
+                .filter(user -> user.getUserId().equals(userId))
+                .forEach(user -> user.setSubscription(subscription));
     }
 }

@@ -1,7 +1,7 @@
 package com.spring.project.dao;
 
-import com.spring.project.model.Task;
-import com.spring.project.model.TaskStatus;
+import com.spring.project.model.task.Task;
+import com.spring.project.model.task.TaskStatus;
 import com.spring.project.service.task.TaskDao;
 import org.springframework.stereotype.Repository;
 

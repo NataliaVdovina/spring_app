@@ -1,8 +1,7 @@
 package com.spring.project.controller.user;
 
-import com.spring.project.model.User;
+import com.spring.project.model.user.User;
 import com.spring.project.service.authentication.AuthenticationService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -22,5 +21,9 @@ public class UserController {
         Optional<Long> optionalUserId = userService.signIn(user);
         optionalUserId.ifPresent(authenticationService::setUserId);
         return optionalUserId.isPresent();
+    }
+
+    public void buySubscription(){
+        userService.buySubscription(authenticationService.getUserId());
     }
 }

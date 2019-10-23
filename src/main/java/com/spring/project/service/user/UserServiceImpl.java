@@ -1,8 +1,9 @@
 package com.spring.project.service.user;
 
 import com.spring.project.controller.user.UserService;
-import com.spring.project.model.User;
+import com.spring.project.model.user.User;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -25,5 +26,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<Long> signIn(User user) {
         return userDao.findUserIdByEmailAndPassword(user.getEmail(), user.getPassword());
+    }
+
+    @Override
+    public void buySubscription(Long userId) {
+        String secret = DigestUtils.md5Hex("secret");
+        userDao.setSubscriptionByUserId(userId, secret);
     }
 }

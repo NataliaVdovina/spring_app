@@ -1,8 +1,8 @@
 package com.spring.project.service.task;
 
 import com.spring.project.controller.task.TaskService;
-import com.spring.project.model.Task;
-import com.spring.project.model.TaskStatus;
+import com.spring.project.model.task.Task;
+import com.spring.project.model.task.TaskStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,21 +1,29 @@
-package com.spring.project.model;
+package com.spring.project.model.user;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.util.Objects;
 
 @Getter
 @Setter
-@AllArgsConstructor
 public class User {
     private Long userId;
     private String email;
     private String password;
     private String firstName;
     private String lastName;
+    private String subscription;
+
+    public User(Long userId, String email, String password, String firstName, String lastName) {
+        this.userId = userId;
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 
     @Override
     public boolean equals(Object o) {
