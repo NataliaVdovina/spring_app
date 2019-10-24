@@ -9,4 +9,5 @@ public interface UserDao {
     void createUser(User user);
     Optional<Long> findUserIdByEmailAndPassword(String email, String password);
     void setSubscriptionByUserId(Long userId, String subscription);
+    Optional<User> findUserById(Long userId);
 }

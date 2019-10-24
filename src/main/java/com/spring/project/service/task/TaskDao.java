@@ -10,4 +10,5 @@ public interface TaskDao {
     void deleteTask(Long taskId);
     Set<Task> findAllTasksByUser(Long userId);
     void setStatus(Long taskId, TaskStatus taskStatus);
+    Long getTaskCountByUserId(Long userId);
 }

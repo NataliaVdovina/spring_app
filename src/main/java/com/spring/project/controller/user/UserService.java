@@ -9,4 +9,5 @@ public interface UserService {
     Optional<Long> signIn(User user);
 
     void buySubscription(Long userId);
+    boolean checkSubscription(Long userId);
 }

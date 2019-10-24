@@ -51,4 +51,11 @@ public class TaskDaoImpl implements TaskDao {
     public void setStatus(Long taskId, TaskStatus taskStatus) {
         tasks.stream().filter(task -> task.getTaskId().equals(taskId)).forEach(task -> task.setTaskStatus(taskStatus));
     }
+
+    @Override
+    public Long getTaskCountByUserId(Long userId) {
+        return tasks.stream()
+                .filter(task -> task.getUserId().equals(userId))
+                .count();
+    }
 }

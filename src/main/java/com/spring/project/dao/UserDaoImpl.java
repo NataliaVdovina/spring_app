@@ -45,8 +45,14 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void setSubscriptionByUserId(Long userId, String subscription) {
-        users.stream()
+        findUserById(userId)
+                .ifPresent(user -> user.setSubscription(subscription));
+    }
+
+    @Override
+    public Optional<User> findUserById(Long userId) {
+        return users.stream()
                 .filter(user -> user.getUserId().equals(userId))
-                .forEach(user -> user.setSubscription(subscription));
+                .findAny();
     }
 }

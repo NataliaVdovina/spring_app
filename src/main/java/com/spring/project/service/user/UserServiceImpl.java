@@ -11,7 +11,10 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+
     private final UserDao userDao;
+
+    private static final String SECRET_HASH = md5Hash("secret");
 
     @Override
     public boolean signUp(User user) {
@@ -30,7 +33,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void buySubscription(Long userId) {
-        String secret = DigestUtils.md5Hex("secret");
-        userDao.setSubscriptionByUserId(userId, secret);
+        userDao.setSubscriptionByUserId(userId, SECRET_HASH);
+    }
+
+    private static String md5Hash(String s) {
+        return DigestUtils.md5Hex(s);
+    }
+
+    @Override
+    public boolean checkSubscription(Long userId) {
+        Optional<User> optionalUser = userDao.findUserById(userId);
+        User user = optionalUser.orElseThrow(UserNotFoundException::new);
+
+        String subscription = user.getSubscription();
+        return SECRET_HASH.equals(md5Hash(subscription));
     }
 }
