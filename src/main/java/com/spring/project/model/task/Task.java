@@ -8,12 +8,20 @@ import java.util.Objects;
 
 @Getter
 @Setter
-@AllArgsConstructor
 public class Task {
     private Long taskId;
     private Long userId;
     private String taskName;
     private TaskStatus taskStatus;
+    private TaskPriority taskPriority;
+
+    public Task(Long taskId, Long userId, String taskName, TaskStatus taskStatus) {
+        this.taskId = taskId;
+        this.userId = userId;
+        this.taskName = taskName;
+        this.taskStatus = taskStatus;
+        taskPriority = TaskPriority.LOW;
+    }
 
     @Override
     public boolean equals(Object o) {

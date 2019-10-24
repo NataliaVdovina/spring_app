@@ -1,6 +1,7 @@
 package com.spring.project.dao;
 
 import com.spring.project.model.task.Task;
+import com.spring.project.model.task.TaskPriority;
 import com.spring.project.model.task.TaskStatus;
 import com.spring.project.service.task.TaskDao;
 import org.springframework.stereotype.Repository;
@@ -57,5 +58,12 @@ public class TaskDaoImpl implements TaskDao {
         return tasks.stream()
                 .filter(task -> task.getUserId().equals(userId))
                 .count();
+    }
+
+    @Override
+    public void setTaskPriorityByTaskId(Long taskId, TaskPriority taskPriority) {
+        tasks.stream()
+                .filter(task -> task.getTaskId().equals(taskId))
+                .forEach(task -> task.setTaskPriority(taskPriority));
     }
 }
