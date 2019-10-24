@@ -3,6 +3,7 @@ package com.spring.project;
 import com.spring.project.config.ApplicationConfig;
 import com.spring.project.controller.user.UserController;
 import com.spring.project.model.user.User;
+
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class Main {
@@ -17,6 +18,7 @@ public class Main {
 
         User user = new User(null, "testEmail1", "testPassword1", "testFirstName1",
                 "testLastName1");
+
         assert !userController.signUp(user);
         assert userController.signIn(user);
     }
