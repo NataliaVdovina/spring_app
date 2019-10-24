@@ -1,8 +1,9 @@
 package com.spring.project.service.task;
 
 import com.spring.project.controller.task.TaskService;
-import com.spring.project.model.Task;
-import com.spring.project.model.TaskStatus;
+import com.spring.project.model.task.Task;
+import com.spring.project.model.task.TaskPriority;
+import com.spring.project.model.task.TaskStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -36,5 +37,10 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void openTask(Long taskId) {
         taskDao.setStatus(taskId, TaskStatus.OPEN);
+    }
+
+    @Override
+    public void setTaskPriorityByTaskId(Long taskId, TaskPriority taskPriority) {
+        taskDao.setTaskPriorityByTaskId(taskId, taskPriority);
     }
 }

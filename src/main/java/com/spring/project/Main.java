@@ -2,7 +2,7 @@ package com.spring.project;
 
 import com.spring.project.config.ApplicationConfig;
 import com.spring.project.controller.user.UserController;
-import com.spring.project.model.User;
+import com.spring.project.model.user.User;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class Main {

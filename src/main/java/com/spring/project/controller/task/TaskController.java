@@ -1,13 +1,11 @@
 package com.spring.project.controller.task;
 
-import com.spring.project.controller.user.UserController;
-import com.spring.project.model.Task;
-import com.spring.project.model.TaskStatus;
+import com.spring.project.model.task.Task;
+import com.spring.project.model.task.TaskPriority;
 import com.spring.project.service.authentication.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
 import java.util.Set;
 
 @Component
@@ -37,5 +35,9 @@ public class TaskController {
     public void openTask(Long taskId) {
         authenticationService.checkAuthentication();
         taskService.openTask(taskId);
+    }
+
+    public void setTaskPriority(Long taskId, TaskPriority taskPriority) {
+        taskService.setTaskPriorityByTaskId(taskId, taskPriority);
     }
 }
