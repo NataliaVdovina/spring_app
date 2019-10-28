@@ -2,20 +2,26 @@ package com.spring.project.service.task;
 
 import com.spring.project.controller.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.stereotype.Component;
 
 @Aspect
 @RequiredArgsConstructor
+@Component
 public class TaskCreatingAspect {
 
     private final UserService userService;
     private final TaskDao taskDao;
 
-    @Before(value = "execution(* com.spring.project.service.task.TaskServiceImpl.createTask(Long, String))" +
-            " && args(userId, taskName)"
-            , argNames = "userId, taskName")
-    public void checkSubscriptionClause(Long userId, String taskName) {
+    @Pointcut (value = "execution(* com.spring.project.service.task.TaskServiceImpl.createTask(Long, ..))")
+    public void pointcutCreateTask(){}
+
+    @Before ("pointcutCreateTask()")
+    public void checkSubscriptionClause(JoinPoint joinPoint) {
+        Long userId = (Long) joinPoint.getArgs()[0];
         if (userService.checkSubscription(userId)) {
             return;
         }
