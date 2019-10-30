@@ -3,66 +3,56 @@ package com.spring.project.dao.task;
 import com.spring.project.model.task.Task;
 import com.spring.project.model.task.TaskPriority;
 import com.spring.project.model.task.TaskStatus;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
+@RequiredArgsConstructor
 public class TaskRepositoryImpl implements TaskRepository {
-    private Set<Task> tasks = new HashSet<>();
+    private final String INSERT = "insert into tasks (user_id, task_name, status, task_priority) values(?,?,?,?)";
+    private final String DELETE_BY_ID = "delete from tasks where task_id = ?";
+    private final String FIND_ALL_TASKS_BY_USER = "select * from tasks where users_id = ?";
+    private final String SET_STATUS = "update users set status=? where task_id=?";
+    private final String SET_TASK_PRIORITY = "update users set taskPriority=? where task_id=?";
+    private final String GET_TASK_COUNT_BY_USER_ID = "select task_id, count(task_id) from tasks GROUP BY task_id";
 
-    @PostConstruct
-    public void init(){
-        Task task1 = new Task(1L, 1L, "testTaskName1", TaskStatus.OPEN, TaskPriority.LOW);
-        Task task2 = new Task(2L, 1L, "testTaskName2", TaskStatus.OPEN, TaskPriority.LOW);
-        tasks.add(task1);
-        tasks.add(task2);
-    }
-
+    @NonNull
+    private final JdbcTemplate jdbcTemplate;
 
     @Override
     public void createTask(Long userId, String taskName) {
-        Optional<Long> maxTaskId = tasks.stream()
-                .map(Task::getTaskId)
-                .max(Collections.reverseOrder());
-        Long taskId = maxTaskId.orElse(0L) + 1;
-        Task task = new Task(taskId, userId, taskName, TaskStatus.OPEN, TaskPriority.LOW);
-        tasks.add(task);
+        jdbcTemplate.update(INSERT, userId, taskName, TaskStatus.OPEN, TaskPriority.LOW);
     }
 
     @Override
     public void deleteTask(Long taskId) {
-        tasks.removeIf(task -> task.getTaskId().equals(taskId));
+        jdbcTemplate.update(DELETE_BY_ID, taskId);
     }
 
     @Override
-    public Set<Task> findAllTasksByUser(Long userId) {
-        return tasks.stream()
-                .filter(task -> task.getUserId().equals(userId))
-                .collect(Collectors.toSet());
+    public List<Task> findAllTasksByUser(Long userId) {
+        return jdbcTemplate.query(FIND_ALL_TASKS_BY_USER, new TaskRowMapper(), userId);
     }
 
     @Override
     public void setStatus(Long taskId, TaskStatus taskStatus) {
-        tasks.stream().filter(task -> task.getTaskId().equals(taskId)).forEach(task -> task.setTaskStatus(taskStatus));
-    }
-
-    @Override
-    public Long getTaskCountByUserId(Long userId) {
-        return tasks.stream()
-                .filter(task -> task.getUserId().equals(userId))
-                .count();
+        jdbcTemplate.update(SET_STATUS, taskStatus, taskId);
     }
 
     @Override
     public void setTaskPriorityByTaskId(Long taskId, TaskPriority taskPriority) {
-        tasks.stream()
-                .filter(task -> task.getTaskId().equals(taskId))
-                .forEach(task -> task.setTaskPriority(taskPriority));
+        jdbcTemplate.update(SET_TASK_PRIORITY, taskPriority, taskId);
+    }
+
+    @Override
+    public Long getTaskCountByUserId(Long userId) {
+        List<Task> tasks = jdbcTemplate.query(GET_TASK_COUNT_BY_USER_ID, new TaskRowMapper(), userId);
+        return (long)tasks.size();
     }
 }

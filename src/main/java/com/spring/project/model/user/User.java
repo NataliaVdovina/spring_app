@@ -8,6 +8,7 @@ import java.util.Objects;
 @Getter
 @RequiredArgsConstructor
 @Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class User {
     private Long userId;
     @NonNull

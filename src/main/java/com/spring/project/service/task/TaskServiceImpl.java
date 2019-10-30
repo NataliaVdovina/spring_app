@@ -11,6 +11,7 @@ import com.spring.project.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -38,7 +39,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Set<Task> findAllTasksByUser(Long userId) {
+    public List<Task> findAllTasksByUser(Long userId) {
         return taskRepository.findAllTasksByUser(userId);
     }
 

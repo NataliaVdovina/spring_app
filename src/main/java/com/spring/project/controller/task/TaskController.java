@@ -7,6 +7,7 @@ import com.spring.project.service.task.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Set;
 
 @Component
@@ -24,7 +25,7 @@ public class TaskController {
         taskService.deleteTask(taskId);
     }
 
-    public Set<Task> findAllTasksByUser() {
+    public List<Task> findAllTasksByUser() {
         return taskService.findAllTasksByUser(authenticationService.getUserId());
     }
 

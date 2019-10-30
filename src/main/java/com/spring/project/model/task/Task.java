@@ -1,5 +1,6 @@
 package com.spring.project.model.task;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,6 +8,7 @@ import java.util.Objects;
 
 @Getter
 @Setter
+@Builder
 public class Task {
     private Long taskId;
     private Long userId;
@@ -14,8 +16,7 @@ public class Task {
     private TaskStatus taskStatus;
     private TaskPriority taskPriority;
 
-    public Task(Long taskId, Long userId, String taskName, TaskStatus taskStatus, TaskPriority taskPriority) {
-        this.taskId = taskId;
+    public Task(Long userId, String taskName, TaskStatus taskStatus, TaskPriority taskPriority) {
         this.userId = userId;
         this.taskName = taskName;
         this.taskStatus = taskStatus;
