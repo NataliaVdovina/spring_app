@@ -1,7 +1,7 @@
 package com.spring.project.service.task;
 
 import com.spring.project.service.user.UserService;
-import com.spring.project.dao.TaskRepository;
+import com.spring.project.dao.task.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;

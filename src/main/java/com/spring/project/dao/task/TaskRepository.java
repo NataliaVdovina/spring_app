@@ -1,4 +1,4 @@
-package com.spring.project.dao;
+package com.spring.project.dao.task;
 
 import com.spring.project.model.task.Task;
 import com.spring.project.model.task.TaskPriority;

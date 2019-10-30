@@ -1,6 +1,6 @@
 package com.spring.project.service.user;
 
-import com.spring.project.dao.UserRepository;
+import com.spring.project.dao.user.UserRepository;
 import com.spring.project.model.user.User;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;

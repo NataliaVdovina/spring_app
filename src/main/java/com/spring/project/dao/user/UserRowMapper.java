@@ -1,4 +1,4 @@
-package com.spring.project.dao;
+package com.spring.project.dao.user;
 
 import com.spring.project.model.user.User;
 import com.spring.project.security.UserRole;

@@ -1,6 +1,6 @@
 package com.spring.project.service.task;
 
-import com.spring.project.dao.TaskRepository;
+import com.spring.project.dao.task.TaskRepository;
 import com.spring.project.model.task.Task;
 import com.spring.project.model.task.TaskPriority;
 import com.spring.project.model.task.TaskStatus;
