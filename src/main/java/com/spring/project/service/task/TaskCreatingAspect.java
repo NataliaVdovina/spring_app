@@ -1,6 +1,7 @@
 package com.spring.project.service.task;
 
-import com.spring.project.controller.user.UserService;
+import com.spring.project.service.user.UserService;
+import com.spring.project.dao.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class TaskCreatingAspect {
 
     private final UserService userService;
-    private final TaskDao taskDao;
+    private final TaskRepository taskRepository;
 
     @Pointcut (value = "execution(* com.spring.project.service.task.TaskServiceImpl.createTask(Long, ..))")
     public void pointcutCreateTask(){}
@@ -25,7 +26,7 @@ public class TaskCreatingAspect {
         if (userService.checkSubscription(userId)) {
             return;
         }
-        Long taskCountByUserId = taskDao.getTaskCountByUserId(userId);
+        Long taskCountByUserId = taskRepository.getTaskCountByUserId(userId);
         if (taskCountByUserId == 10) {
             throw new SubscriptionException();
         }

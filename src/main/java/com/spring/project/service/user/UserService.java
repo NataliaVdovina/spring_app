@@ -1,4 +1,4 @@
-package com.spring.project.controller.user;
+package com.spring.project.service.user;
 
 import com.spring.project.model.user.User;
 
@@ -10,4 +10,6 @@ public interface UserService {
 
     void buySubscription(Long userId);
     boolean checkSubscription(Long userId);
+
+    User getUserById(Long userId);
 }

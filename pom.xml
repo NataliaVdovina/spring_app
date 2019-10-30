@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.spring.project</groupId>
     <artifactId>apring_app</artifactId>
-    <packaging>war</packaging>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>spring_app</name>
 
@@ -48,6 +48,11 @@
             <version>${spring.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>5.2.0.RELEASE</version>
+        </dependency>
 
         <dependency>
             <groupId>junit</groupId>
@@ -60,7 +65,6 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>1.4.199</version>
-            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -80,6 +84,12 @@
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
             <version>1.13</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.spring.project</groupId>
+            <artifactId>security-module</artifactId>
+            <version>1.0</version>
         </dependency>
 
     </dependencies>

@@ -2,6 +2,7 @@ package com.spring.project.controller.user;
 
 import com.spring.project.model.user.User;
 import com.spring.project.service.authentication.AuthenticationService;
+import com.spring.project.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

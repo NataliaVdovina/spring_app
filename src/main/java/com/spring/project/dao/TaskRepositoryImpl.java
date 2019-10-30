@@ -3,7 +3,6 @@ package com.spring.project.dao;
 import com.spring.project.model.task.Task;
 import com.spring.project.model.task.TaskPriority;
 import com.spring.project.model.task.TaskStatus;
-import com.spring.project.service.task.TaskDao;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
@@ -14,7 +13,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Repository
-public class TaskDaoImpl implements TaskDao {
+public class TaskRepositoryImpl implements TaskRepository {
     private Set<Task> tasks = new HashSet<>();
 
     @PostConstruct

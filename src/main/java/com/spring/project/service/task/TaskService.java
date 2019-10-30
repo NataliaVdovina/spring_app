@@ -1,4 +1,4 @@
-package com.spring.project.controller.task;
+package com.spring.project.service.task;
 
 import com.spring.project.model.task.Task;
 import com.spring.project.model.task.TaskPriority;

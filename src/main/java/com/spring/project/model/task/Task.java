@@ -14,12 +14,12 @@ public class Task {
     private TaskStatus taskStatus;
     private TaskPriority taskPriority;
 
-    public Task(Long taskId, Long userId, String taskName, TaskStatus taskStatus) {
+    public Task(Long taskId, Long userId, String taskName, TaskStatus taskStatus, TaskPriority taskPriority) {
         this.taskId = taskId;
         this.userId = userId;
         this.taskName = taskName;
         this.taskStatus = taskStatus;
-        taskPriority = TaskPriority.LOW;
+        this.taskPriority = taskPriority;
     }
 
     @Override

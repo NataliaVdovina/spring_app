@@ -1,4 +1,4 @@
-package com.spring.project.service.task;
+package com.spring.project.dao;
 
 import com.spring.project.model.task.Task;
 import com.spring.project.model.task.TaskPriority;
@@ -6,7 +6,7 @@ import com.spring.project.model.task.TaskStatus;
 
 import java.util.Set;
 
-public interface TaskDao {
+public interface TaskRepository {
     void createTask(Long userId, String taskName);
     void deleteTask(Long taskId);
     Set<Task> findAllTasksByUser(Long userId);

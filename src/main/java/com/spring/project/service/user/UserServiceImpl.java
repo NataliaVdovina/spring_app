@@ -1,6 +1,6 @@
 package com.spring.project.service.user;
 
-import com.spring.project.controller.user.UserService;
+import com.spring.project.dao.UserRepository;
 import com.spring.project.model.user.User;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -12,28 +12,28 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final UserDao userDao;
+    private final UserRepository userRepository;
 
     private static final String SECRET_HASH = md5Hash("secret");
 
     @Override
     public boolean signUp(User user) {
-        if (userDao.isExist(user)) {
+        if (userRepository.isExist(user)) {
             return false;
         } else {
-            userDao.createUser(user);
+            userRepository.createUser(user);
             return true;
         }
     }
 
     @Override
     public Optional<Long> signIn(User user) {
-        return userDao.findUserIdByEmailAndPassword(user.getEmail(), user.getPassword());
+        return userRepository.findUserIdByEmailAndPassword(user.getEmail(), user.getPassword());
     }
 
     @Override
     public void buySubscription(Long userId) {
-        userDao.setSubscriptionByUserId(userId, SECRET_HASH);
+        userRepository.setSubscriptionByUserId(userId, SECRET_HASH);
     }
 
     private static String md5Hash(String s) {
@@ -42,10 +42,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkSubscription(Long userId) {
-        Optional<User> optionalUser = userDao.findUserById(userId);
-        User user = optionalUser.orElseThrow(UserNotFoundException::new);
-
+        User user = getUserById(userId);
         String subscription = user.getSubscription();
         return SECRET_HASH.equals(md5Hash(subscription));
+    }
+
+    @Override
+    public User getUserById(Long userId) {
+        Optional<User> userById = userRepository.findUserById(userId);
+        return userById.orElseThrow(UserNotFoundException::new);
     }
 }
