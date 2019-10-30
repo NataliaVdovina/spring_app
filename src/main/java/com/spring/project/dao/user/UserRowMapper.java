@@ -17,14 +17,15 @@ public class UserRowMapper implements RowMapper<User> {
         String firstName = resultSet.getString("first_name");
         String lastName = resultSet.getString("last_name");
         String subscription = resultSet.getString("subscription");
-        String  userRole = resultSet.getString("user_role");
+        String userRole = resultSet.getString("user_role");
         return User.builder()
                 .userId(id)
                 .email(email)
+                .password(password)
                 .firstName(firstName)
                 .lastName(lastName)
                 .subscription(subscription)
-                .userRole(userRole)
+                .userRole(UserRole.valueOf(userRole))
                 .build();
     }
 }

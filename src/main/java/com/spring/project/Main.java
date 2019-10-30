@@ -21,7 +21,7 @@ public class Main {
         UserController userController = ctx.getBean(UserController.class);
         User user = new User("testEmail1", "testPassword1", "testFirstName1",
                 "testLastName1", UserRole.USER);
-        assert userController.signUp(user);
+        assert !userController.signUp(user);
         assert userController.signIn(user);
 
 

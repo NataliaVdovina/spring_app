@@ -10,6 +10,6 @@ public interface UserRepository {
     Optional<Long> findUserIdByEmailAndPassword(String email, String password);
     void setSubscriptionByUserId(Long userId, String subscription);
     Optional<User> findUserById(Long userId);
-    Optional<User> updateUser(User user);
-    void deleteUserById(Long id);
+//    Optional<User> updateUser(User user);
+//    void deleteUserById(Long id);
 }

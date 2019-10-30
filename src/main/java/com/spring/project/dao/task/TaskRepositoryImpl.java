@@ -18,8 +18,8 @@ public class TaskRepositoryImpl implements TaskRepository {
 
     @PostConstruct
     public void init(){
-        Task task1 = new Task(1L, 1L, "testTaskName1", TaskStatus.OPEN);
-        Task task2 = new Task(2L, 1L, "testTaskName2", TaskStatus.OPEN);
+        Task task1 = new Task(1L, 1L, "testTaskName1", TaskStatus.OPEN, TaskPriority.LOW);
+        Task task2 = new Task(2L, 1L, "testTaskName2", TaskStatus.OPEN, TaskPriority.LOW);
         tasks.add(task1);
         tasks.add(task2);
     }
@@ -31,7 +31,7 @@ public class TaskRepositoryImpl implements TaskRepository {
                 .map(Task::getTaskId)
                 .max(Collections.reverseOrder());
         Long taskId = maxTaskId.orElse(0L) + 1;
-        Task task = new Task(taskId, userId, taskName, TaskStatus.OPEN);
+        Task task = new Task(taskId, userId, taskName, TaskStatus.OPEN, TaskPriority.LOW);
         tasks.add(task);
     }
 
