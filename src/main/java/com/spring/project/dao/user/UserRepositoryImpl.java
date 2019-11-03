@@ -17,9 +17,9 @@ public class UserRepositoryImpl implements UserRepository {
             "values(?,?,?,?,?,?)";
     private final String UPDATE_SUBSCRIPTION = "update users set subscription=? where user_id=?";
     private final String SELECT_ID_BY_EMAIL_AND_PASSWORD = "select user_id from users where email=? and password=?";
-    private final String SELECT_BY_ID = "select * from users where id=?";
+    private final String SELECT_BY_ID = "select * from users where user_id=?";
     private final String UPDATE = "update users SET password=?, first_name=?, last_name=?, subscription=? WHERE user_id = ?";
-    private final String DELETE = "delete from users where id=?";
+    private final String DELETE = "delete from users where user_id=?";
 
     @NonNull
     private final JdbcTemplate jdbcTemplate;

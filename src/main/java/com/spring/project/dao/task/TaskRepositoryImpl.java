@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class TaskRepositoryImpl implements TaskRepository {
     private final String INSERT = "insert into tasks (user_id, task_name, status, task_priority) values(?,?,?,?)";
     private final String DELETE_BY_ID = "delete from tasks where task_id = ?";
-    private final String FIND_ALL_TASKS_BY_USER = "select * from tasks where users_id = ?";
+    private final String FIND_ALL_TASKS_BY_USER = "select * from tasks where user_id = ?";
     private final String SET_STATUS = "update users set status=? where task_id=?";
     private final String SET_TASK_PRIORITY = "update users set taskPriority=? where task_id=?";
     private final String GET_TASK_COUNT_BY_USER_ID = "select task_id, count(task_id) from tasks GROUP BY task_id";
