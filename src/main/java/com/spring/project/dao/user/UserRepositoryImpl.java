@@ -4,6 +4,7 @@ import com.spring.project.model.user.User;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +14,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
 
-    static final String INSERT = "insert into users (email, password, first_name, last_name, userRole) "+ "values(?,?,?,?,?,?)";
+    static final String INSERT = "insert into users (email, password, first_name, last_name, user_role) "+ "values(?,?,?,?,?)";
     static final String UPDATE_SUBSCRIPTION = "update users set subscription=? where user_id=?";
     static final String SELECT_ID_BY_EMAIL_AND_PASSWORD = "select user_id from users where email=? and password=?";
     static final String SELECT_BY_ID = "select * from users where user_id=?";
@@ -33,7 +34,7 @@ public class UserRepositoryImpl implements UserRepository {
     public void createUser(User user) {
         jdbcTemplate.update(
                 INSERT, user.getEmail(), user.getPassword(), user.getFirstName(), user.getLastName(),
-                user.getUserRole()
+                user.getUserRole().toString()
         );
     }
 
@@ -50,8 +51,12 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Optional<User> findUserById(Long userId) {
-        User user = jdbcTemplate.queryForObject(SELECT_BY_ID, new UserRowMapper(), userId);
-        return Optional.ofNullable(user);
+        try {
+            User user = jdbcTemplate.queryForObject(SELECT_BY_ID, new UserRowMapper(), userId);
+            return Optional.ofNullable(user);
+        }catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override

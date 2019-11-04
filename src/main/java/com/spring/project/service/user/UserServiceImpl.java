@@ -14,7 +14,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    private static final String SECRET_HASH = md5Hash("secret");
+    static final String SECRET_HASH = md5Hash("secret");
 
     @Override
     public boolean signUp(User user) {

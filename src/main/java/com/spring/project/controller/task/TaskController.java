@@ -13,7 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Set;
 
-@RestController("/task")
+@RestController
+@RequestMapping("/task")
 @RequiredArgsConstructor
 public class TaskController {
     private final TaskService taskService;
