@@ -13,13 +13,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
 
-    private final String INSERT = "insert into users (email, password, first_name, last_name, user_role) " +
-            "values(?,?,?,?,?,?)";
-    private final String UPDATE_SUBSCRIPTION = "update users set subscription=? where user_id=?";
-    private final String SELECT_ID_BY_EMAIL_AND_PASSWORD = "select user_id from users where email=? and password=?";
-    private final String SELECT_BY_ID = "select * from users where user_id=?";
-    private final String UPDATE = "update users SET password=?, first_name=?, last_name=?, subscription=? WHERE user_id = ?";
-    private final String DELETE = "delete from users where user_id=?";
+    static final String INSERT = "insert into users (email, password, first_name, last_name, userRole) "+ "values(?,?,?,?,?,?)";
+    static final String UPDATE_SUBSCRIPTION = "update users set subscription=? where user_id=?";
+    static final String SELECT_ID_BY_EMAIL_AND_PASSWORD = "select user_id from users where email=? and password=?";
+    static final String SELECT_BY_ID = "select * from users where user_id=?";
+    static final String UPDATE = "update users SET password=?, first_name=?, last_name=?, subscription=? WHERE user_id = ?";
+    static final String DELETE = "delete from users where user_id=?";
 
     @NonNull
     private final JdbcTemplate jdbcTemplate;
