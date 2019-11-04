@@ -6,40 +6,47 @@ import com.spring.project.service.authentication.AuthenticationService;
 import com.spring.project.service.task.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
 
-@Component
+@RestController
 @RequiredArgsConstructor
 public class TaskController {
     private final TaskService taskService;
     private final AuthenticationService authenticationService;
 
-    public void createTask(String taskName) {
+    @PostMapping("/createTask/{taskName}")
+    public void createTask(@PathVariable String taskName) {
         taskService.createTask(authenticationService.getUserId(), taskName);
     }
 
-    public void deleteTask(Long taskId) {
+    @DeleteMapping("/deleteTask/{taskId}")
+    public void deleteTask(@PathVariable Long taskId) {
         authenticationService.checkAuthentication();
         taskService.deleteTask(taskId);
     }
 
+    @GetMapping("/findAllTaskByUser")
     public List<Task> findAllTasksByUser() {
         return taskService.findAllTasksByUser(authenticationService.getUserId());
     }
 
-    public void closeTask(Long taskId) {
+    @PutMapping("/closeTask/{taskId}")
+    public void closeTask(@PathVariable Long taskId) {
         authenticationService.checkAuthentication();
         taskService.closeTask(taskId);
     }
 
-    public void openTask(Long taskId) {
+    @PutMapping("/openTask/{taskId}")
+    public void openTask(@PathVariable Long taskId) {
         authenticationService.checkAuthentication();
         taskService.openTask(taskId);
     }
 
-    public void setTaskPriority(Long taskId, TaskPriority taskPriority) {
+    @PutMapping("/setTaskPriority/{taskId}")
+    public void setTaskPriority(@PathVariable Long taskId, TaskPriority taskPriority) {
         taskService.setTaskPriorityByTaskId(taskId, taskPriority);
     }
 }
