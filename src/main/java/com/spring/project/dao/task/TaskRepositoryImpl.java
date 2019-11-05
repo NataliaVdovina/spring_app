@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
+import java.sql.Blob;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -22,6 +23,7 @@ public class TaskRepositoryImpl implements TaskRepository {
     static final String SET_STATUS = "update users set status=? where task_id=?";
     static final String SET_TASK_PRIORITY = "update users set taskPriority=? where task_id=?";
     static final String GET_TASK_COUNT_BY_USER_ID = "select task_id, count(task_id) from tasks GROUP BY task_id";
+    static final String PUT_FILE = "insert into tasks (file) values (?) task_id=?";
 
     @NonNull
     private final JdbcTemplate jdbcTemplate;
@@ -55,5 +57,10 @@ public class TaskRepositoryImpl implements TaskRepository {
     public Long getTaskCountByUserId(Long userId) {
         List<Task> tasks = jdbcTemplate.query(GET_TASK_COUNT_BY_USER_ID, new TaskRowMapper(), userId);
         return (long)tasks.size();
+    }
+
+    @Override
+    public void putFile(Blob file, Long taskId) {
+        jdbcTemplate.update(PUT_FILE, file, taskId);
     }
 }

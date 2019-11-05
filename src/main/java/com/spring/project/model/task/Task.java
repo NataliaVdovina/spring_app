@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 
+import java.sql.Blob;
 import java.util.Objects;
 
 @Getter
@@ -21,20 +22,23 @@ public class Task {
     private TaskStatus taskStatus;
     @NonNull
     private TaskPriority taskPriority;
+    private Blob file;
 
-    public Task(Long userId, String taskName, TaskStatus taskStatus, TaskPriority taskPriority) {
+    public Task(Long userId, String taskName, TaskStatus taskStatus, TaskPriority taskPriority, Blob file) {
         this.userId = userId;
         this.taskName = taskName;
         this.taskStatus = taskStatus;
         this.taskPriority = taskPriority;
+        this.file = file;
     }
 
-    public Task(Long taskId, Long userId, String taskName, TaskStatus taskStatus, TaskPriority taskPriority) {
+    public Task(Long taskId, Long userId, String taskName, TaskStatus taskStatus, TaskPriority taskPriority, Blob file) {
         this.taskId = taskId;
         this.userId = userId;
         this.taskName = taskName;
         this.taskStatus = taskStatus;
         this.taskPriority = taskPriority;
+        this.file = file;
     }
 
     @Override

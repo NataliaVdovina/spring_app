@@ -17,5 +17,6 @@ CREATE TABLE IF NOT EXISTS tasks (
 	task_name varchar(50) NOT NULL UNIQUE,
 	status varchar(20) NOT NULL,
 	taskPriority varchar (10) NOT NULL,
+	file mediumblob,
 	FOREIGN KEY(user_id) REFERENCES users (user_id) ON DELETE CASCADE
 );

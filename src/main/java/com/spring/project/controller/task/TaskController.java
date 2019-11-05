@@ -2,6 +2,7 @@ package com.spring.project.controller.task;
 
 import com.spring.project.model.task.Task;
 import com.spring.project.model.task.TaskPriority;
+import com.spring.project.model.user.User;
 import com.spring.project.service.authentication.AuthenticationService;
 import com.spring.project.service.task.TaskService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.Blob;
 import java.util.List;
 import java.util.Set;
 
@@ -57,8 +59,13 @@ public class TaskController {
         taskService.setTaskPriorityByTaskId(taskId, taskPriority);
     }
 
-    @PostMapping("/upload")
-    public void upload(@RequestParam("file") MultipartFile file) {
-
+    @PostMapping("/putFile")
+    public void putFile(User user, @RequestParam("file") Blob file, Long taskId) {
+        taskService.putFile(user, file, taskId);
     }
+
+//    @PostMapping("/putFile")
+//    public void putFile(@RequestParam("file") MultipartFile file) {
+//
+//    }
 }

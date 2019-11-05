@@ -18,6 +18,10 @@
         <mockito.version>3.1.0</mockito.version>
     </properties>
 
+    <modules>
+        <module>security-module</module>
+    </modules>
+
     <dependencies>
 
         <dependency>
