@@ -11,6 +11,7 @@ import com.spring.project.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.sql.Blob;
 import java.util.List;
 import java.util.Set;
 
@@ -56,5 +57,13 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void setTaskPriorityByTaskId(Long taskId, TaskPriority taskPriority) {
         taskRepository.setTaskPriorityByTaskId(taskId, taskPriority);
+    }
+
+    @Override
+    public void putFile(User user, Blob file, Long taskId) {
+        if (!userService.checkSubscription(user.getUserId())) {
+            throw new SubscriptionException();
+        }
+        taskRepository.putFile(file, taskId);
     }
 }

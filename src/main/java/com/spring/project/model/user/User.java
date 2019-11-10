@@ -6,9 +6,11 @@ import lombok.*;
 import java.util.Objects;
 
 @Getter
+@Setter
 @RequiredArgsConstructor
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
 public class User {
     private Long userId;
     @NonNull
@@ -19,9 +21,9 @@ public class User {
     private String firstName;
     @NonNull
     private String lastName;
-    private String subscription;
     @NonNull
     private UserRole userRole;
+    private String subscription;
 
     @Override
     public boolean equals(Object o) {
@@ -36,3 +38,5 @@ public class User {
         return Objects.hash(email);
     }
 }
+
+

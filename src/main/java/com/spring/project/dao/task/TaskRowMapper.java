@@ -5,6 +5,8 @@ import com.spring.project.model.task.TaskPriority;
 import com.spring.project.model.task.TaskStatus;
 import org.springframework.jdbc.core.RowMapper;
 
+import java.io.File;
+import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -16,6 +18,7 @@ public class TaskRowMapper implements RowMapper<Task> {
         String taskName = resultSet.getString("task_name");
         String status = resultSet.getString("status");
         String taskPriority = resultSet.getString("taskPriority");
+        Blob file = resultSet.getBlob("file");
 
         return Task.builder()
                 .taskId(id)
@@ -23,6 +26,7 @@ public class TaskRowMapper implements RowMapper<Task> {
                 .taskName(taskName)
                 .taskStatus(TaskStatus.valueOf(status))
                 .taskPriority(TaskPriority.valueOf(taskPriority))
+                .file(file)
                 .build();
 
     }
