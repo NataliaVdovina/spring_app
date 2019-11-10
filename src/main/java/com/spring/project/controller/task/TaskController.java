@@ -7,13 +7,10 @@ import com.spring.project.service.authentication.AuthenticationService;
 import com.spring.project.service.task.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Blob;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/task")
@@ -47,12 +44,14 @@ public class TaskController {
         authenticationService.checkAuthentication();
         taskService.closeTask(taskId);
     }
+
     @PatchMapping("/{taskId}/open")
     @ResponseStatus(HttpStatus.OK)
     public void openTask(@PathVariable Long taskId) {
         authenticationService.checkAuthentication();
         taskService.openTask(taskId);
     }
+
     @PatchMapping("/{taskId}/setPriority")
     @ResponseStatus(HttpStatus.OK)
     public void setTaskPriority(@PathVariable Long taskId, @RequestBody TaskPriority taskPriority) {
@@ -63,9 +62,4 @@ public class TaskController {
     public void putFile(User user, @RequestParam("file") Blob file, Long taskId) {
         taskService.putFile(user, file, taskId);
     }
-
-//    @PostMapping("/putFile")
-//    public void putFile(@RequestParam("file") MultipartFile file) {
-//
-//    }
 }
