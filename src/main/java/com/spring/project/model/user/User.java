@@ -3,40 +3,30 @@ package com.spring.project.model.user;
 import com.spring.project.security.UserRole;
 import lombok.*;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
 @Getter
 @Setter
-@RequiredArgsConstructor
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor
 public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userId;
-    @NonNull
+    @Column
     private String email;
-    @NonNull
+    @Column
     private String password;
-    @NonNull
+    @Column
     private String firstName;
-    @NonNull
+    @Column
     private String lastName;
-    @NonNull
+    @Column
     private UserRole userRole;
+    @Column
     private String subscription;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(email, user.email);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(email);
-    }
 }
-
-

@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface UserService {
     boolean signUp(User user);
-    Optional<Long> signIn(User user);
+    long signIn(User user);
 
     void buySubscription(Long userId);
     boolean checkSubscription(Long userId);

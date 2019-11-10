@@ -1,57 +1,37 @@
 package com.spring.project.model.task;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
+import lombok.*;
 
+import javax.persistence.*;
 import java.sql.Blob;
 import java.util.Objects;
 
+@Entity
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
 public class Task {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long taskId;
-    @NonNull
+    @Column
     private Long userId;
-    @NonNull
+    @Column
     private String taskName;
-    @NonNull
+    @Column
     private TaskStatus taskStatus;
-    @NonNull
+    @Column
     private TaskPriority taskPriority;
+    @Column
     private Blob file;
 
-    public Task(Long userId, String taskName, TaskStatus taskStatus, TaskPriority taskPriority, Blob file) {
+    public Task(Long userId, String taskName, TaskStatus taskStatus, TaskPriority taskPriority) {
         this.userId = userId;
         this.taskName = taskName;
         this.taskStatus = taskStatus;
         this.taskPriority = taskPriority;
-        this.file = file;
-    }
-
-    public Task(Long taskId, Long userId, String taskName, TaskStatus taskStatus, TaskPriority taskPriority, Blob file) {
-        this.taskId = taskId;
-        this.userId = userId;
-        this.taskName = taskName;
-        this.taskStatus = taskStatus;
-        this.taskPriority = taskPriority;
-        this.file = file;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Task task = (Task) o;
-        return Objects.equals(userId, task.userId) &&
-                Objects.equals(taskName, task.taskName);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(userId, taskName);
     }
 }

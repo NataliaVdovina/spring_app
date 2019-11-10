@@ -1,7 +1,7 @@
 package com.spring.project.service.task;
 
 import com.spring.project.service.user.UserService;
-import com.spring.project.dao.task.TaskRepository;
+import com.spring.project.dao.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -26,7 +26,7 @@ public class TaskCreatingAspect {
         if (userService.checkSubscription(userId)) {
             return;
         }
-        Long taskCountByUserId = taskRepository.getTaskCountByUserId(userId);
+        int taskCountByUserId = taskRepository.findByUserId(userId).size();
         if (taskCountByUserId == 10) {
             throw new SubscriptionException();
         }

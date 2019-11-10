@@ -1,6 +1,6 @@
 package com.spring.project.service.task;
 
-import com.spring.project.dao.task.TaskRepository;
+import com.spring.project.dao.TaskRepository;
 import com.spring.project.model.task.Task;
 import com.spring.project.model.task.TaskPriority;
 import com.spring.project.model.task.TaskStatus;
@@ -11,12 +11,14 @@ import com.spring.project.service.authentication.AuthenticationService;
 import com.spring.project.service.user.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -46,7 +48,13 @@ class TaskServiceImplTest {
 
         taskServiceImpl.createTask(USER_ID, taskName);
 
-        verify(taskRepository).createTask(USER_ID, taskName);
+        ArgumentCaptor<Task> taskArgumentCaptor = ArgumentCaptor.forClass(Task.class);
+        verify(taskRepository).save(taskArgumentCaptor.capture());
+        Task task = taskArgumentCaptor.getValue();
+        assertEquals(USER_ID, task.getUserId());
+        assertEquals(taskName, task.getTaskName());
+        assertEquals(TaskStatus.OPEN, task.getTaskStatus());
+        assertEquals(TaskPriority.LOW, task.getTaskPriority());
     }
 
     @Test
@@ -61,7 +69,7 @@ class TaskServiceImplTest {
 
         taskServiceImpl.deleteTask(TASK_ID);
 
-        verify(taskRepository).deleteTask(TASK_ID);
+        verify(taskRepository).deleteById(TASK_ID);
     }
 
     @Test
@@ -75,39 +83,54 @@ class TaskServiceImplTest {
                 .thenReturn(false);
 
         assertThrows(NotAllowedException.class, () -> taskServiceImpl.deleteTask(TASK_ID));
-        verify(taskRepository, never()).deleteTask(TASK_ID);
+        verify(taskRepository, never()).deleteById(TASK_ID);
     }
 
     @Test
     void findAllTasksByUser() {
         List<Task> expectedTasks = MockData.tasks();
-        when(taskRepository.findAllTasksByUser(USER_ID))
+        when(taskRepository.findByUserId(USER_ID))
                 .thenReturn(expectedTasks);
 
         List<Task> actualTasks = taskServiceImpl.findAllTasksByUser(USER_ID);
-        verify(taskRepository).findAllTasksByUser(USER_ID);
+        verify(taskRepository).findByUserId(USER_ID);
         assertEquals(expectedTasks, actualTasks);
     }
 
     @Test
     void closeTask() {
+        Task task = MockData.task(TASK_ID);
+        when(taskRepository.findById(TASK_ID))
+                .thenReturn(Optional.of(task));
+
         taskServiceImpl.closeTask(TASK_ID);
 
-        verify(taskRepository).setStatus(TASK_ID, TaskStatus.CLOSED);
+        verify(taskRepository).save(task);
+        assertEquals(TaskStatus.CLOSED, task.getTaskStatus());
     }
 
     @Test
     void openTask() {
-        taskServiceImpl.openTask(TASK_ID);
+        Task task = MockData.task(TASK_ID);
+        when(taskRepository.findById(TASK_ID))
+                .thenReturn(Optional.of(task));
 
-        verify(taskRepository).setStatus(TASK_ID, TaskStatus.OPEN);
+        taskServiceImpl.closeTask(TASK_ID);
+
+        verify(taskRepository).save(task);
+        assertEquals(TaskStatus.CLOSED, task.getTaskStatus());
     }
 
     @Test
     void setTaskPriorityByTaskId() {
-        taskServiceImpl.setTaskPriorityByTaskId(TASK_ID, TaskPriority.LOW);
+        Task task = MockData.task(TASK_ID);
+        when(taskRepository.findById(TASK_ID))
+                .thenReturn(Optional.of(task));
 
-        verify(taskRepository).setTaskPriorityByTaskId(TASK_ID, TaskPriority.LOW);
+        taskServiceImpl.setTaskPriorityByTaskId(TASK_ID, TaskPriority.IMPORTANT);
+
+        verify(taskRepository).save(task);
+        assertEquals(TaskPriority.IMPORTANT, task.getTaskPriority());
     }
 
     private static class MockData {

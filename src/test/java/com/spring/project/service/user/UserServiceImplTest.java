@@ -1,8 +1,9 @@
 package com.spring.project.service.user;
 
-import com.spring.project.dao.user.UserRepository;
+import com.spring.project.dao.UserRepository;
 import com.spring.project.model.user.User;
 import com.spring.project.security.UserRole;
+import com.spring.project.service.exception.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,90 +26,97 @@ class UserServiceImplTest {
     @InjectMocks
     private UserServiceImpl userServiceImpl;
 
-    private static User USER;
+    private static User user;
 
     @BeforeEach
     private void init() {
-        USER = MockData.user();
+        user = MockData.user();
     }
 
     @Test
     void signUpUserExists() {
-        when(userRepository.isExist(USER))
-                .thenReturn(true);
+        when(userRepository.findByEmail(user.getEmail()))
+                .thenReturn(Optional.of(user));
 
-        boolean userCreated = userServiceImpl.signUp(USER);
+        boolean userCreated = userServiceImpl.signUp(user);
 
-        verify(userRepository).isExist(USER);
-        verify(userRepository, never()).createUser(USER);
+        verify(userRepository).findByEmail(user.getEmail());
+        verify(userRepository, never()).save(any());
         assertFalse(userCreated);
     }
 
     @Test
     void signUpUserNotExists() {
-        when(userRepository.isExist(USER))
-                .thenReturn(false);
+        when(userRepository.findByEmail(user.getEmail()))
+                .thenReturn(Optional.empty());
 
-        boolean userCreated = userServiceImpl.signUp(USER);
+        boolean userCreated = userServiceImpl.signUp(user);
 
-        verify(userRepository).createUser(USER);
-        verify(userRepository).isExist(USER);
+        verify(userRepository).save(user);
+        verify(userRepository).findByEmail(user.getEmail());
         assertTrue(userCreated);
     }
 
     @Test
     void signIn() {
-        when(userRepository.findUserIdByEmailAndPassword(USER.getEmail(), USER.getPassword()))
-                .thenReturn(Optional.of(USER.getUserId()));
+        when(userRepository.findByEmail(user.getEmail()))
+                .thenReturn(Optional.of(user));
 
-        Optional<Long> optionalUserId = userServiceImpl.signIn(USER);
+        long userId = userServiceImpl.signIn(user);
 
-        verify(userRepository).findUserIdByEmailAndPassword(USER.getEmail(), USER.getPassword());
-        assertEquals(Optional.of(USER.getUserId()), optionalUserId);
+        verify(userRepository).findByEmail(user.getEmail());
+        assertEquals(user.getUserId(), userId);
     }
 
     @Test
     void buySubscription() {
-        userServiceImpl.buySubscription(USER.getUserId());
-        verify(userRepository).setSubscriptionByUserId(USER.getUserId(), SECRET_HASH);
+        when(userRepository.findById(user.getUserId()))
+                .thenReturn(Optional.of(user));
+
+        userServiceImpl.buySubscription(user.getUserId());
+
+        verify(userRepository).save(user);
+        assertEquals(SECRET_HASH, user.getSubscription());
     }
 
     @Test
     void checkSubscription_no() {
-        when(userRepository.findUserById(USER.getUserId()))
-                .thenReturn(Optional.of(USER));
-        boolean checkSubscription = userServiceImpl.checkSubscription(USER.getUserId());
+        when(userRepository.findById(user.getUserId()))
+                .thenReturn(Optional.of(user));
+
+        boolean checkSubscription = userServiceImpl.checkSubscription(user.getUserId());
+
         assertFalse(checkSubscription);
     }
 
     @Test
     void checkSubscription_yes() {
-        USER.setSubscription("secret");
-        when(userRepository.findUserById(USER.getUserId()))
-                .thenReturn(Optional.of(USER));
+        user.setSubscription("secret");
+        when(userRepository.findById(user.getUserId()))
+                .thenReturn(Optional.of(user));
 
-        boolean checkSubscription = userServiceImpl.checkSubscription(USER.getUserId());
+        boolean checkSubscription = userServiceImpl.checkSubscription(user.getUserId());
 
         assertTrue(checkSubscription);
     }
 
     @Test
     void getUserById_exists() {
-        when(userRepository.findUserById(USER.getUserId()))
-                .thenReturn(Optional.of(USER));
+        when(userRepository.findById(user.getUserId()))
+                .thenReturn(Optional.of(user));
 
-        User actualUser = userServiceImpl.getUserById(USER.getUserId());
+        User actualUser = userServiceImpl.getUserById(user.getUserId());
 
-        verify(userRepository).findUserById(USER.getUserId());
-        assertEquals(actualUser, USER);
+        verify(userRepository).findById(user.getUserId());
+        assertEquals(actualUser, user);
     }
 
     @Test
     void getUserById_notExists() {
-        when(userRepository.findUserById(USER.getUserId()))
+        when(userRepository.findById(user.getUserId()))
                 .thenReturn(Optional.empty());
 
-        assertThrows(UserNotFoundException.class, () -> userServiceImpl.getUserById(USER.getUserId()));
+        assertThrows(NotFoundException.class, () -> userServiceImpl.getUserById(user.getUserId()));
     }
 
     private static class MockData {

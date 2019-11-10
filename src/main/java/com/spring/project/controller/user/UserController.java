@@ -25,10 +25,9 @@ public class UserController {
 
     @PostMapping("/signIn")
     @ResponseStatus(HttpStatus.OK)
-    public boolean signIn(@RequestBody User user) {
-        Optional<Long> optionalUserId = userService.signIn(user);
-        optionalUserId.ifPresent(authenticationService::setUserId);
-        return optionalUserId.isPresent();
+    public void signIn(@RequestBody User user) {
+        long userId = userService.signIn(user);
+        authenticationService.setUserId(userId);
     }
 
     @PostMapping("/bySubscription")

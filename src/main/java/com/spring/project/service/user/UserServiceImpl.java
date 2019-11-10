@@ -1,7 +1,8 @@
 package com.spring.project.service.user;
 
-import com.spring.project.dao.user.UserRepository;
+import com.spring.project.dao.UserRepository;
 import com.spring.project.model.user.User;
+import com.spring.project.service.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Service;
@@ -18,22 +19,27 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean signUp(User user) {
-        if (userRepository.isExist(user)) {
+        Optional<User> userOptional = userRepository.findByEmail(user.getEmail());
+        if (userOptional.isPresent()) {
             return false;
         } else {
-            userRepository.createUser(user);
+            userRepository.save(user);
             return true;
         }
     }
 
     @Override
-    public Optional<Long> signIn(User user) {
-        return userRepository.findUserIdByEmailAndPassword(user.getEmail(), user.getPassword());
+    public long signIn(User user) {
+        return userRepository.findByEmail(user.getEmail())
+                .orElseThrow(() -> new NotFoundException("User", "email", user.getEmail()))
+                .getUserId();
     }
 
     @Override
     public void buySubscription(Long userId) {
-        userRepository.setSubscriptionByUserId(userId, SECRET_HASH);
+        User user = getUserById(userId);
+        user.setSubscription(SECRET_HASH);
+        userRepository.save(user);
     }
 
     private static String md5Hash(String s) {
@@ -49,7 +55,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(Long userId) {
-        Optional<User> userById = userRepository.findUserById(userId);
-        return userById.orElseThrow(UserNotFoundException::new);
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("User", userId));
     }
 }
