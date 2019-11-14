@@ -1,10 +1,12 @@
-package com.spring.project.model.user;
+package com.spring.project.domain.user;
 
-import com.spring.project.security.UserRole;
+//import com.spring.project.security.UserRole;
+import com.spring.project.domain.task.Task;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -29,4 +31,6 @@ public class User {
     private UserRole userRole;
     @Column
     private String subscription;
+    @OneToMany(mappedBy = "userId", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Task> tasks = new ArrayList<>();
 }

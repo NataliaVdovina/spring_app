@@ -1,10 +1,9 @@
-package com.spring.project.model.task;
+package com.spring.project.domain.task;
 
+import com.spring.project.domain.user.User;
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Blob;
-import java.util.Objects;
 
 @Entity
 @Getter
@@ -17,8 +16,9 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long taskId;
-    @Column
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private User userId;
     @Column
     private String taskName;
     @Column
@@ -26,10 +26,10 @@ public class Task {
     @Column
     private TaskPriority taskPriority;
     @Column
-    private Blob file;
+    private String fileName;
 
-    public Task(Long userId, String taskName, TaskStatus taskStatus, TaskPriority taskPriority) {
-        this.userId = userId;
+    public Task(Long taskId, String taskName, TaskStatus taskStatus, TaskPriority taskPriority) {
+        this.taskId = taskId;
         this.taskName = taskName;
         this.taskStatus = taskStatus;
         this.taskPriority = taskPriority;

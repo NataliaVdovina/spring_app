@@ -1,4 +1,4 @@
 package com.spring.project.service.task;
 
-class SubscriptionException extends RuntimeException {
+public class SubscriptionException extends RuntimeException {
 }

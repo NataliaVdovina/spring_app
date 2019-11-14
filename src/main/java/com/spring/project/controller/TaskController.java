@@ -1,15 +1,13 @@
-package com.spring.project.controller.task;
+package com.spring.project.controller;
 
-import com.spring.project.model.task.Task;
-import com.spring.project.model.task.TaskPriority;
-import com.spring.project.model.user.User;
+import com.spring.project.domain.task.Task;
+import com.spring.project.domain.task.TaskPriority;
 import com.spring.project.service.authentication.AuthenticationService;
 import com.spring.project.service.task.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Blob;
 import java.util.List;
 
 @RestController
@@ -58,8 +56,8 @@ public class TaskController {
         taskService.setTaskPriorityByTaskId(taskId, taskPriority);
     }
 
-    @PostMapping("/putFile")
-    public void putFile(User user, @RequestParam("file") Blob file, Long taskId) {
-        taskService.putFile(user, file, taskId);
-    }
+//    @PostMapping("/putFile")
+//    public void putFile(User user, @RequestParam("file") Blob file, Long taskId) {
+//        taskService.putFile(user, file, taskId);
+//    }
 }

@@ -1,8 +1,6 @@
 package com.spring.project.service.user;
 
-import com.spring.project.model.user.User;
-
-import java.util.Optional;
+import com.spring.project.domain.user.User;
 
 public interface UserService {
     boolean signUp(User user);

@@ -1,7 +1,7 @@
 package com.spring.project.service.user;
 
-import com.spring.project.dao.UserRepository;
-import com.spring.project.model.user.User;
+import com.spring.project.domain.user.User;
+import com.spring.project.repository.UserRepository;
 import com.spring.project.service.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;

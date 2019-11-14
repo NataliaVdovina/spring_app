@@ -1,12 +1,9 @@
 package com.spring.project.service.task;
 
-import com.spring.project.model.task.Task;
-import com.spring.project.model.task.TaskPriority;
-import com.spring.project.model.user.User;
+import com.spring.project.domain.task.Task;
+import com.spring.project.domain.task.TaskPriority;
 
-import java.sql.Blob;
 import java.util.List;
-import java.util.Set;
 
 public interface TaskService {
     void createTask(Long userId, String taskName);
@@ -15,5 +12,4 @@ public interface TaskService {
     void closeTask(Long taskId);
     void openTask(Long taskId);
     void setTaskPriorityByTaskId(Long taskId, TaskPriority taskPriority);
-    void putFile(User user, Blob file, Long taskId);
 }

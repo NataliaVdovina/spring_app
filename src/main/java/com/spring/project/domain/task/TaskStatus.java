@@ -1,4 +1,4 @@
-package com.spring.project.model.task;
+package com.spring.project.domain.task;
 
 public enum TaskStatus {
     OPEN,

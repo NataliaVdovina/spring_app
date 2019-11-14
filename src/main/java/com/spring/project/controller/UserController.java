@@ -1,14 +1,11 @@
-package com.spring.project.controller.user;
+package com.spring.project.controller;
 
-import com.spring.project.model.user.User;
-import com.spring.project.service.authentication.AuthenticationService;
+import com.spring.project.domain.user.User;
 import com.spring.project.service.user.UserService;
+import com.spring.project.service.authentication.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
